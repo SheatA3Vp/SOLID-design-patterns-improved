@@ -8,7 +8,7 @@ NPC::NPC(const std::string& name, double x, double y, const std::string& type, d
 
 void NPC::validateCoordinates(double x, double y) const {
     if (x < MAP_MIN || x > MAP_MAX || y < MAP_MIN || y > MAP_MAX) {
-        throw std::out_of_range("Coordinates must be in range [0, 500]");
+        throw std::out_of_range("Coordinates must be in range [0, 50]");
     }
 }
 

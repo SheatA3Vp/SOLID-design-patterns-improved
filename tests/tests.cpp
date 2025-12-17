@@ -33,12 +33,12 @@ private:
 
 // Создание NPC
 TEST(NPCTest, CreateBear) {
-    auto npc = NPCFactory::createNPC("Bear", "Bear1", 100, 100);
+    auto npc = NPCFactory::createNPC("Bear", "Bear1", 10, 10);
     ASSERT_NE(npc, nullptr);
     EXPECT_EQ(npc->getType(), "Bear");
     EXPECT_EQ(npc->getName(), "Bear1");
-    EXPECT_EQ(npc->getX(), 100);
-    EXPECT_EQ(npc->getY(), 100);
+    EXPECT_EQ(npc->getX(), 10);
+    EXPECT_EQ(npc->getY(), 10);
 }
 
 TEST(NPCTest, CreateHeron) {
@@ -49,7 +49,7 @@ TEST(NPCTest, CreateHeron) {
 }
 
 TEST(NPCTest, CreateDesman) {
-    auto npc = NPCFactory::createNPC("Desman", "Desman1", 200, 200);
+    auto npc = NPCFactory::createNPC("Desman", "Desman1", 20, 20);
     ASSERT_NE(npc, nullptr);
     EXPECT_EQ(npc->getType(), "Desman");
     EXPECT_EQ(npc->getName(), "Desman1");
@@ -63,7 +63,7 @@ TEST(NPCTest, CreateInvalidType) {
 
 // Валидация координат
 TEST(NPCTest, InvalidCoordinatesTooHigh) {
-    EXPECT_THROW(NPCFactory::createNPC("Bear", "Bear1", 501, 250), std::out_of_range);
+    EXPECT_THROW(NPCFactory::createNPC("Bear", "Bear1", 51, 25), std::out_of_range);
 }
 
 TEST(NPCTest, InvalidCoordinatesTooLow) {
@@ -74,7 +74,7 @@ TEST(NPCTest, ValidCoordinatesBoundary) {
     auto npc1 = NPCFactory::createNPC("Bear", "Bear1", 0, 0);
     ASSERT_NE(npc1, nullptr);
     
-    auto npc2 = NPCFactory::createNPC("Bear", "Bear2", 500, 500);
+    auto npc2 = NPCFactory::createNPC("Bear", "Bear2", 50, 50);
     ASSERT_NE(npc2, nullptr);
 }
 
@@ -88,7 +88,7 @@ TEST(NPCTest, DistanceCalculation) {
 // Добавление NPC в подземелье
 TEST(DungeonTest, AddNPC) {
     Dungeon dungeon;
-    auto npc = NPCFactory::createNPC("Bear", "TestBear", 100, 100);
+    auto npc = NPCFactory::createNPC("Bear", "TestBear", 10, 10);
     dungeon.addNPC(std::move(npc));
     SUCCEED();
 }
@@ -97,8 +97,8 @@ TEST(DungeonTest, AddNPC) {
 TEST(DungeonTest, PrintNPCs) {
     CaptureOutput capture;
     Dungeon dungeon;
-    dungeon.addNPC(NPCFactory::createNPC("Bear", "Bear1", 100, 100));
-    dungeon.addNPC(NPCFactory::createNPC("Heron", "Heron1", 150, 150));
+    dungeon.addNPC(NPCFactory::createNPC("Bear", "Bear1", 10, 10));
+    dungeon.addNPC(NPCFactory::createNPC("Heron", "Heron1", 15, 15));
     dungeon.print();
     
     std::string output = capture.str();
@@ -181,7 +181,7 @@ TEST(DungeonTest, DesmanNotKillingHeron) {
 TEST(DungeonTest, OutOfRangeNoPCs) {
     Dungeon dungeon;
     dungeon.addNPC(NPCFactory::createNPC("Bear", "Bear1", 0, 0));
-    dungeon.addNPC(NPCFactory::createNPC("Heron", "Heron1", 100, 100));
+    dungeon.addNPC(NPCFactory::createNPC("Heron", "Heron1", 40, 40));
 
     auto consoleObs = std::make_shared<ConsoleObserver>();
     std::vector<std::shared_ptr<Observer>> observers = {consoleObs};
@@ -197,9 +197,9 @@ TEST(DungeonTest, SaveAndLoadFromFile) {
     
     {
         Dungeon dungeon;
-        dungeon.addNPC(NPCFactory::createNPC("Bear", "Bear1", 100, 100));
-        dungeon.addNPC(NPCFactory::createNPC("Heron", "Heron1", 150, 150));
-        dungeon.addNPC(NPCFactory::createNPC("Desman", "Desman1", 200, 200));
+        dungeon.addNPC(NPCFactory::createNPC("Bear", "Bear1", 10, 10));
+        dungeon.addNPC(NPCFactory::createNPC("Heron", "Heron1", 15, 15));
+        dungeon.addNPC(NPCFactory::createNPC("Desman", "Desman1", 20, 20));
         dungeon.saveToFile(filename);
     }
     
@@ -263,19 +263,19 @@ TEST(ObserverTest, FileObserverOutput) {
 TEST(DungeonTest, ComplexBattleScenario) {
     Dungeon dungeon;
     // Создаём сценарий: 3 медведя, 2 выпи, 2 выхухоля в одной зоне
-    dungeon.addNPC(NPCFactory::createNPC("Bear", "Bear1", 100, 100));
-    dungeon.addNPC(NPCFactory::createNPC("Bear", "Bear2", 105, 105));
-    dungeon.addNPC(NPCFactory::createNPC("Bear", "Bear3", 110, 110));
-    dungeon.addNPC(NPCFactory::createNPC("Heron", "Heron1", 115, 115));
-    dungeon.addNPC(NPCFactory::createNPC("Heron", "Heron2", 120, 120));
-    dungeon.addNPC(NPCFactory::createNPC("Desman", "Desman1", 125, 125));
-    dungeon.addNPC(NPCFactory::createNPC("Desman", "Desman2", 130, 130));
+    dungeon.addNPC(NPCFactory::createNPC("Bear", "Bear1", 10, 10));
+    dungeon.addNPC(NPCFactory::createNPC("Bear", "Bear2", 10.5, 10.5));
+    dungeon.addNPC(NPCFactory::createNPC("Bear", "Bear3", 11, 11));
+    dungeon.addNPC(NPCFactory::createNPC("Heron", "Heron1", 11.5, 11.5));
+    dungeon.addNPC(NPCFactory::createNPC("Heron", "Heron2", 12, 12));
+    dungeon.addNPC(NPCFactory::createNPC("Desman", "Desman1", 12.5, 12.5));
+    dungeon.addNPC(NPCFactory::createNPC("Desman", "Desman2", 13, 13));
 
     auto consoleObs = std::make_shared<ConsoleObserver>();
     auto fileObs = std::make_shared<FileObserver>("complex_test_log.txt");
     std::vector<std::shared_ptr<Observer>> observers = {consoleObs, fileObs};
 
-    dungeon.battle(50.0, observers);
+    dungeon.battle(5.0, observers);
     
     // Проверяем, что некоторые NPC были убиты
     SUCCEED();
@@ -286,8 +286,8 @@ TEST(DungeonTest, ComplexBattleScenario) {
 TEST(DungeonTest, KilledNPCCannotCounterAttack) {
     Dungeon dungeon;
     // Медведь и Выхухоль очень близко - оба могут умереть
-    dungeon.addNPC(NPCFactory::createNPC("Bear", "Bear1", 100, 100));
-    dungeon.addNPC(NPCFactory::createNPC("Desman", "Desman1", 101, 101));
+    dungeon.addNPC(NPCFactory::createNPC("Bear", "Bear1", 10, 10));
+    dungeon.addNPC(NPCFactory::createNPC("Desman", "Desman1", 10.1, 10.1));
 
     auto consoleObs = std::make_shared<ConsoleObserver>();
     std::vector<std::shared_ptr<Observer>> observers = {consoleObs};
@@ -296,7 +296,7 @@ TEST(DungeonTest, KilledNPCCannotCounterAttack) {
     // - Bear1 атакует Desman1 (медведь убивает выхухоля)
     // - Desman1 атакует Bear1 (выхухоль убивает медведя)
     // Оба умирают в одном раунде!
-    dungeon.battle(5.0, observers);
+    dungeon.battle(0.5, observers);
     
     SUCCEED();
 }
